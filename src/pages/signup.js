@@ -1,32 +1,37 @@
 import { Link } from "react-router-dom";
 import Banner from "../assets/CA banner.png";
-import { TextInput } from "../components/Textfield";
-import { register } from "../api/register";
 import { useState } from "react";
+import axios from "axios";
 const Signup = () => {
   const [signupFields, setSignupFields] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const onSubmit = async (e) => {
-    console.log("Clicked");
-    e.preventDefault();
-
-    const response = await register(signupFields);
-    // console.log("response", signupFields);
+  const onSubmit = () => {
+    console.log("response", signupFields);
+    let jsonData = JSON.stringify(signupFields);
+    console.log(jsonData)
+    axios
+      .post("https://goldfish-app-kl4y2.ondigitalocean.app/users/register/", jsonData)
+      
+      .then((response) => console.log(response));
   };
 
   return (
-    <div className=" py-8 ml-12 h-screen sm:ml-0">
-      <div className="flex justify-center">
+    <div className=" py-8 mx-16 h-screen">
+      <div className="flex">
         {/* Image container */}
-        <div className="w-1/3 sm:hidden">
-          <img src={Banner} alt="" className=" h-[650px]"></img>
+        <div className="w-1/2 sm:w-0 md:w-0">
+          <img
+            src={Banner}
+            alt=""
+            className=" h-[650px] md:hidden sm:hidden"
+          ></img>
         </div>
 
         {/* -----------Signup container------------- */}
-        <div className="w-2/3 flex flex-col justify-center items-center sm:w-4/5 sm:mt-10">
+        <div className="w-1/2 flex flex-col justify-center items-center sm:w-full sm:mt-10 md:w-full md:mt-10">
           <div className="">
             <div>
               <h1 className=" font-bold text-5xl text-center sm:text-[30px]">
@@ -92,9 +97,7 @@ const Signup = () => {
                   })
                 }
               />
-              <div>
-                
-              </div>
+              <div></div>
               <div className="flex mt-3 ml-2 sm:mt-8">
                 <input type="checkbox" className="bg-[#F4F4F4] mr-2" />
                 <p>I have read and agree to Terms of Service</p>
